@@ -1,0 +1,119 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #f6f8fb;
+  --color-bg-warm: #e7eef6;
+  --color-surface: #ffffff;
+  --color-surface-2: #eef3f9;
+  --color-ink: #132033;
+  --color-ink-soft: #3d4a5c;
+  --color-muted: #6a7688;
+  --color-faint: #94a0b0;
+  --color-line: #d3dce8;
+  --color-line-strong: #b4c1d1;
+  --color-accent: #1c4e8a;
+  --color-accent-2: #2b63a6;
+  --color-accent-fg: #f6f8fb;
+  --color-mark: #7d8fa3;
+  --color-mark-soft: #9aabc0;
+  --color-map-sea: #d7e3f0;
+
+  --font-display: "Newsreader", "Iowan Old Style", "Palatino Linotype", Palatino,
+    "Times New Roman", serif;
+  --font-sans: "Source Sans 3", "Source Sans Pro", "Segoe UI", system-ui,
+    sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 28px;
+
+  --shadow-border: 0 0 0 1px rgba(19, 32, 51, 0.08),
+    0 1px 2px -1px rgba(19, 32, 51, 0.06), 0 2px 8px 0 rgba(19, 32, 51, 0.04);
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: var(--color-bg);
+    color: var(--color-ink);
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background: var(--color-bg);
+    color: var(--color-ink);
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+    font-family: var(--font-display);
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-accent) 22%, transparent);
+    color: var(--color-ink);
+  }
+}
+
+.world-map-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2.05 / 1;
+  min-height: 20rem;
+  overflow: hidden;
+  background: var(--color-map-sea);
+  border-radius: var(--radius-sm);
+}
+
+.world-map-svg {
+  position: absolute;
+  inset: 0;
+}
+
+.world-map-svg svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-origin: center center;
+  transition: transform 200ms var(--ease-out);
+}
+
+.world-map-svg path[data-listed]:hover,
+.world-map-svg path[data-gap]:hover,
+.world-map-svg path.on {
+  stroke: var(--color-accent);
+  stroke-width: 1.4;
+  stroke-opacity: 0.95;
+  filter: brightness(1.08);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .world-map-svg svg {
+    transition: none;
+  }
+}
