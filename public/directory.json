@@ -2,46 +2,363 @@
   "meta": {
     "updated": "2026-08-29",
     "note": "Public columns only. Emails and private notes never belong in this file. Coordinator publishes from LCI-Community-Directory.xlsx.",
-    "shared": ["country", "iso", "organisation", "representative"],
-    "community": ["region", "network", "communityStatus", "mouParty"],
-    "study": ["studyStatus"]
+    "shared": [
+      "country",
+      "iso",
+      "organisation",
+      "representative"
+    ],
+    "community": [
+      "region",
+      "network",
+      "communityStatus",
+      "mouParty"
+    ],
+    "study": [
+      "studyStatus"
+    ]
   },
   "countries": [
-    {"country": "Argentina", "iso": "AR", "organisation": "LCI Argentina", "representative": "Federico Thesing", "region": "Americas", "network": "LCI Latam", "communityStatus": "listed", "mouParty": "Pending", "studyStatus": "existed"},
-    {"country": "Australia", "iso": "AU", "organisation": "LC ANZ", "representative": "Michael Ward", "region": "Asia-Pacific", "network": "LC ANZ", "communityStatus": "listed", "mouParty": "Pending", "studyStatus": "existed"},
-    {"country": "Austria", "iso": "AT", "organisation": "GLCI", "representative": "Shervin Haghsheno", "region": "Europe", "network": "GLCI", "communityStatus": "listed", "mouParty": "Pending", "studyStatus": "existed"},
-    {"country": "Bolivia", "iso": "BO", "organisation": "LCI Bolivia", "representative": "Jose Luis Orias", "region": "Americas", "network": "LCI Latam", "communityStatus": "listed", "mouParty": "Pending", "studyStatus": "existed"},
-    {"country": "Brazil", "iso": "BR", "organisation": "—", "representative": "Dayana Costa", "region": "Americas", "network": "LCI Latam", "communityStatus": "listed", "mouParty": "Pending", "studyStatus": "existed"},
-    {"country": "Canada", "iso": "CA", "organisation": "LCI Canada", "representative": "Dominic Desmarais", "region": "Americas", "communityStatus": "listed", "mouParty": "Pending", "studyStatus": "existed"},
-    {"country": "Chile", "iso": "CL", "organisation": "—", "representative": "Ivan Rubio", "region": "Americas", "network": "LCI Latam", "communityStatus": "listed", "mouParty": "Pending", "studyStatus": "existed"},
-    {"country": "Colombia", "iso": "CO", "organisation": "—", "representative": "Alejandro Choconta", "region": "Americas", "network": "LCI Latam", "communityStatus": "listed", "mouParty": "Pending", "studyStatus": "existed"},
-    {"country": "Costa Rica", "iso": "CR", "organisation": "LCI Costa Rica", "representative": "Mario Carmona", "region": "Americas", "network": "LCI Latam", "communityStatus": "listed", "mouParty": "Pending", "studyStatus": "existed"},
-    {"country": "Denmark", "iso": "DK", "organisation": "Lean Construction-Denmark", "representative": "Rolf Simenson", "region": "Europe", "communityStatus": "listed", "mouParty": "Pending", "studyStatus": "existed"},
-    {"country": "Ecuador", "iso": "EC", "organisation": "—", "representative": "Marco Tapia", "region": "Americas", "network": "LCI Latam", "communityStatus": "in-formation", "mouParty": "No", "studyStatus": "existed"},
-    {"country": "Estonia", "iso": "EE", "organisation": "—", "representative": "Ergo Pikas", "region": "Europe", "communityStatus": "listed", "mouParty": "Pending", "studyStatus": "existed"},
-    {"country": "Finland", "iso": "FI", "organisation": "—", "representative": "Jan Hellman", "region": "Europe", "communityStatus": "listed", "mouParty": "Pending", "studyStatus": "existed"},
-    {"country": "France", "iso": "FR", "organisation": "—", "representative": "Zoubeir Lafhaj", "region": "Europe", "communityStatus": "listed", "mouParty": "Pending", "studyStatus": "existed"},
-    {"country": "Germany", "iso": "DE", "organisation": "German Lean Construction Institute (GLCI)", "representative": "Shervin Haghsheno", "region": "Europe", "network": "GLCI", "communityStatus": "listed", "mouParty": "Pending", "studyStatus": "published"},
-    {"country": "India", "iso": "IN", "organisation": "ILCE", "representative": "Anup Mathew", "region": "Asia-Pacific", "communityStatus": "listed", "mouParty": "Pending", "studyStatus": "existed"},
-    {"country": "Indonesia", "iso": "ID", "organisation": "IAMKRI", "representative": "Muhamad Abduh", "region": "Asia-Pacific", "communityStatus": "listed", "mouParty": "Pending", "studyStatus": "existed"},
-    {"country": "Ireland", "iso": "IE", "organisation": "—", "representative": "Richard Fitzpatrick", "region": "Europe", "communityStatus": "listed", "mouParty": "Pending", "studyStatus": "existed"},
-    {"country": "Luxembourg", "iso": "LU", "organisation": "GLCI", "representative": "Shervin Haghsheno", "region": "Europe", "network": "GLCI", "communityStatus": "listed", "mouParty": "Pending", "studyStatus": "existed"},
-    {"country": "Mexico", "iso": "MX", "organisation": "LCI Mexico", "representative": "Melissa Quintana", "region": "Americas", "network": "LCI Latam", "communityStatus": "listed", "mouParty": "Pending", "studyStatus": "existed"},
-    {"country": "New Zealand", "iso": "NZ", "organisation": "LC ANZ", "representative": "Michael Ward", "region": "Asia-Pacific", "network": "LC ANZ", "communityStatus": "listed", "mouParty": "Pending", "studyStatus": "existed"},
-    {"country": "Norway", "iso": "NO", "organisation": "—", "representative": "Oyvind Kjollesdal", "region": "Europe", "communityStatus": "listed", "mouParty": "Pending", "studyStatus": "existed"},
-    {"country": "Peru", "iso": "PE", "organisation": "LCI Peru", "representative": "Santiago Ruiz", "region": "Americas", "network": "LCI Latam", "communityStatus": "listed", "mouParty": "Pending", "studyStatus": "existed"},
-    {"country": "Qatar", "iso": "QA", "organisation": "LCI Qatar", "representative": "Luai El Sbaek", "region": "Middle East", "communityStatus": "listed", "mouParty": "Pending", "studyStatus": "existed"},
-    {"country": "Spain", "iso": "ES", "organisation": "—", "representative": "Juan Felipe Pons", "region": "Europe", "communityStatus": "listed", "mouParty": "Pending", "studyStatus": "existed"},
-    {"country": "Sweden", "iso": "SE", "organisation": "Lean Forum Bygg", "representative": "Jani Tjell", "region": "Europe", "communityStatus": "listed", "mouParty": "Pending", "studyStatus": "existed"},
-    {"country": "Switzerland", "iso": "CH", "organisation": "SLCI", "representative": "Severin Boser", "region": "Europe", "communityStatus": "listed", "mouParty": "Pending", "studyStatus": "existed"},
-    {"country": "United Kingdom", "iso": "GB", "organisation": "LCI UK", "representative": "", "region": "Europe", "communityStatus": "gap", "mouParty": "Pending", "studyStatus": "existed"},
-    {"country": "United States", "iso": "US", "organisation": "LCI", "representative": "Shannon Heyer", "region": "Americas", "communityStatus": "listed", "mouParty": "Pending", "studyStatus": "existed"},
-    {"country": "Uruguay", "iso": "UY", "organisation": "—", "representative": "Guillermo Loblowitz", "region": "Americas", "network": "LCI Latam", "communityStatus": "incomplete", "mouParty": "No", "studyStatus": "existed"}
+    {
+      "country": "Argentina",
+      "iso": "AR",
+      "organisation": "LCI Argentina",
+      "representative": "Federico Thesing",
+      "region": "Americas",
+      "network": "LCI Latam",
+      "communityStatus": "listed",
+      "mouParty": "Pending",
+      "studyStatus": "existed"
+    },
+    {
+      "country": "Australia",
+      "iso": "AU",
+      "organisation": "LC ANZ",
+      "representative": "Michael Ward",
+      "region": "Asia-Pacific",
+      "network": "LC ANZ",
+      "communityStatus": "listed",
+      "mouParty": "Pending",
+      "studyStatus": "existed"
+    },
+    {
+      "country": "Austria",
+      "iso": "AT",
+      "organisation": "GLCI",
+      "representative": "Shervin Haghsheno",
+      "region": "Europe",
+      "network": "GLCI",
+      "communityStatus": "listed",
+      "mouParty": "Pending",
+      "studyStatus": "existed"
+    },
+    {
+      "country": "Bolivia",
+      "iso": "BO",
+      "organisation": "LCI Bolivia",
+      "representative": "Jose Luis Orias",
+      "region": "Americas",
+      "network": "LCI Latam",
+      "communityStatus": "listed",
+      "mouParty": "Pending",
+      "studyStatus": "existed"
+    },
+    {
+      "country": "Brazil",
+      "iso": "BR",
+      "organisation": "—",
+      "representative": "Dayana Costa",
+      "region": "Americas",
+      "network": "LCI Latam",
+      "communityStatus": "listed",
+      "mouParty": "Pending",
+      "studyStatus": "existed"
+    },
+    {
+      "country": "Canada",
+      "iso": "CA",
+      "organisation": "LCI Canada",
+      "representative": "Dominic Desmarais",
+      "region": "Americas",
+      "communityStatus": "listed",
+      "mouParty": "Pending",
+      "studyStatus": "existed"
+    },
+    {
+      "country": "Chile",
+      "iso": "CL",
+      "organisation": "—",
+      "representative": "Ivan Rubio",
+      "region": "Americas",
+      "network": "LCI Latam",
+      "communityStatus": "listed",
+      "mouParty": "Pending",
+      "studyStatus": "existed"
+    },
+    {
+      "country": "Colombia",
+      "iso": "CO",
+      "organisation": "—",
+      "representative": "Alejandro Choconta",
+      "region": "Americas",
+      "network": "LCI Latam",
+      "communityStatus": "listed",
+      "mouParty": "Pending",
+      "studyStatus": "existed"
+    },
+    {
+      "country": "Costa Rica",
+      "iso": "CR",
+      "organisation": "LCI Costa Rica",
+      "representative": "Mario Carmona",
+      "region": "Americas",
+      "network": "LCI Latam",
+      "communityStatus": "listed",
+      "mouParty": "Pending",
+      "studyStatus": "existed"
+    },
+    {
+      "country": "Denmark",
+      "iso": "DK",
+      "organisation": "Lean Construction-Denmark",
+      "representative": "Rolf Simenson",
+      "region": "Europe",
+      "communityStatus": "listed",
+      "mouParty": "Pending",
+      "studyStatus": "existed"
+    },
+    {
+      "country": "Ecuador",
+      "iso": "EC",
+      "organisation": "—",
+      "representative": "Marco Tapia",
+      "region": "Americas",
+      "network": "LCI Latam",
+      "communityStatus": "in-formation",
+      "mouParty": "No",
+      "studyStatus": "existed"
+    },
+    {
+      "country": "Estonia",
+      "iso": "EE",
+      "organisation": "—",
+      "representative": "Ergo Pikas",
+      "region": "Europe",
+      "communityStatus": "listed",
+      "mouParty": "Pending",
+      "studyStatus": "existed"
+    },
+    {
+      "country": "Finland",
+      "iso": "FI",
+      "organisation": "—",
+      "representative": "Jan Hellman",
+      "region": "Europe",
+      "communityStatus": "listed",
+      "mouParty": "Pending",
+      "studyStatus": "existed"
+    },
+    {
+      "country": "France",
+      "iso": "FR",
+      "organisation": "—",
+      "representative": "Zoubeir Lafhaj",
+      "region": "Europe",
+      "communityStatus": "listed",
+      "mouParty": "Pending",
+      "studyStatus": "existed"
+    },
+    {
+      "country": "Germany",
+      "iso": "DE",
+      "organisation": "German Lean Construction Institute (GLCI)",
+      "representative": "Shervin Haghsheno",
+      "region": "Europe",
+      "network": "GLCI",
+      "communityStatus": "listed",
+      "mouParty": "Pending",
+      "studyStatus": "published"
+    },
+    {
+      "country": "India",
+      "iso": "IN",
+      "organisation": "ILCE",
+      "representative": "Anup Mathew",
+      "region": "Asia-Pacific",
+      "communityStatus": "listed",
+      "mouParty": "Pending",
+      "studyStatus": "existed"
+    },
+    {
+      "country": "Indonesia",
+      "iso": "ID",
+      "organisation": "IAMKRI",
+      "representative": "Muhamad Abduh",
+      "region": "Asia-Pacific",
+      "communityStatus": "listed",
+      "mouParty": "Pending",
+      "studyStatus": "existed"
+    },
+    {
+      "country": "Ireland",
+      "iso": "IE",
+      "organisation": "—",
+      "representative": "Richard Fitzpatrick",
+      "region": "Europe",
+      "communityStatus": "listed",
+      "mouParty": "Pending",
+      "studyStatus": "existed"
+    },
+    {
+      "country": "Luxembourg",
+      "iso": "LU",
+      "organisation": "GLCI",
+      "representative": "Shervin Haghsheno",
+      "region": "Europe",
+      "network": "GLCI",
+      "communityStatus": "listed",
+      "mouParty": "Pending",
+      "studyStatus": "existed"
+    },
+    {
+      "country": "Mexico",
+      "iso": "MX",
+      "organisation": "LCI Mexico",
+      "representative": "Melissa Quintana",
+      "region": "Americas",
+      "network": "LCI Latam",
+      "communityStatus": "listed",
+      "mouParty": "Pending",
+      "studyStatus": "existed"
+    },
+    {
+      "country": "New Zealand",
+      "iso": "NZ",
+      "organisation": "LC ANZ",
+      "representative": "Michael Ward",
+      "region": "Asia-Pacific",
+      "network": "LC ANZ",
+      "communityStatus": "listed",
+      "mouParty": "Pending",
+      "studyStatus": "existed"
+    },
+    {
+      "country": "Norway",
+      "iso": "NO",
+      "organisation": "—",
+      "representative": "Oyvind Kjollesdal",
+      "region": "Europe",
+      "communityStatus": "listed",
+      "mouParty": "Pending",
+      "studyStatus": "existed"
+    },
+    {
+      "country": "Peru",
+      "iso": "PE",
+      "organisation": "LCI Peru",
+      "representative": "Santiago Ruiz",
+      "region": "Americas",
+      "network": "LCI Latam",
+      "communityStatus": "listed",
+      "mouParty": "Pending",
+      "studyStatus": "existed"
+    },
+    {
+      "country": "Qatar",
+      "iso": "QA",
+      "organisation": "LCI Qatar",
+      "representative": "Luai El Sbaek",
+      "region": "Middle East",
+      "communityStatus": "listed",
+      "mouParty": "Pending",
+      "studyStatus": "existed"
+    },
+    {
+      "country": "Spain",
+      "iso": "ES",
+      "organisation": "—",
+      "representative": "Juan Felipe Pons",
+      "region": "Europe",
+      "communityStatus": "listed",
+      "mouParty": "Pending",
+      "studyStatus": "existed"
+    },
+    {
+      "country": "Sweden",
+      "iso": "SE",
+      "organisation": "Lean Forum Bygg",
+      "representative": "Jani Tjell",
+      "region": "Europe",
+      "communityStatus": "listed",
+      "mouParty": "Pending",
+      "studyStatus": "existed"
+    },
+    {
+      "country": "Switzerland",
+      "iso": "CH",
+      "organisation": "SLCI",
+      "representative": "Severin Boser",
+      "region": "Europe",
+      "communityStatus": "listed",
+      "mouParty": "Pending",
+      "studyStatus": "existed"
+    },
+    {
+      "country": "United Kingdom",
+      "iso": "GB",
+      "organisation": "LCI UK",
+      "representative": "",
+      "region": "Europe",
+      "communityStatus": "gap",
+      "mouParty": "Pending",
+      "studyStatus": "existed"
+    },
+    {
+      "country": "United States",
+      "iso": "US",
+      "organisation": "LCI",
+      "representative": "Shannon Heyer",
+      "region": "Americas",
+      "communityStatus": "listed",
+      "mouParty": "Pending",
+      "studyStatus": "existed"
+    },
+    {
+      "country": "Uruguay",
+      "iso": "UY",
+      "organisation": "—",
+      "representative": "Guillermo Loblowitz",
+      "region": "Americas",
+      "network": "LCI Latam",
+      "communityStatus": "incomplete",
+      "mouParty": "No",
+      "studyStatus": "existed"
+    }
   ],
   "networks": [
-    {"name": "LCI Latam", "scope": "Latin America — institutes and communities across the region", "representative": "Cesar Valdez", "mouParty": "Pending"},
-    {"name": "LC ANZ", "scope": "Australia and New Zealand — one organisation, two country rows", "representative": "Michael Ward", "mouParty": "Pending"},
-    {"name": "GLCI", "scope": "Germany, Austria, and Luxembourg", "representative": "Shervin Haghsheno", "mouParty": "Pending"},
-    {"name": "EuGLC", "scope": "European Group for Lean Construction — continental network", "representative": "—", "mouParty": "Pending"}
+    {
+      "name": "LCI Latam",
+      "scope": "Latin America — institutes and communities across the region",
+      "representative": "Cesar Valdez",
+      "mouParty": "Pending"
+    },
+    {
+      "name": "LC ANZ",
+      "scope": "Australia and New Zealand — one organisation, two country rows",
+      "representative": "Michael Ward",
+      "mouParty": "Pending"
+    },
+    {
+      "name": "GLCI",
+      "scope": "Germany, Austria, and Luxembourg",
+      "representative": "Shervin Haghsheno",
+      "mouParty": "Pending"
+    },
+    {
+      "name": "EuGLC",
+      "scope": "European Group for Lean Construction — continental network",
+      "representative": "—",
+      "mouParty": "Pending"
+    }
   ]
 }

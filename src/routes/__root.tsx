@@ -7,21 +7,16 @@ import {
 import { AuthProvider } from "@/lib/auth/provider";
 import { PreviewHostBridge } from "@/components/preview-host-bridge";
 import { SiteShell } from "@/components/site-shell";
+import { SITE_DESCRIPTION, SITE_NAME } from "@/lib/site";
 import appCss from "../styles.css?url";
-
-const APP_NAME = "The Community";
 
 export const Route = createRootRoute({
   head: () => ({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: APP_NAME },
-      {
-        name: "description",
-        content:
-          "National Lean Construction institutes in a light international framework.",
-      },
+      { title: SITE_NAME },
+      { name: "description", content: SITE_DESCRIPTION },
       { name: "theme-color", content: "#1c4e8a" },
     ],
     links: [

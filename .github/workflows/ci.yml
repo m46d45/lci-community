@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - run: npm run check:directory
+      - run: npm run typecheck
+      - name: Unit tests (app + sync)
+        run: |
+          node --test scripts/sync-directory.test.mjs \
+            scripts/with-app-env.test.mjs \
+            scripts/migration-plan.test.mjs \
+            scripts/check-auth-invariant.test.mjs
+          node --experimental-strip-types --test \
+            src/lib/app-data/app-data.test.ts \
+            src/lib/auth/gate-identity.test.ts

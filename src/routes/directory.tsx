@@ -12,9 +12,22 @@ import {
   type CountryRow,
   type Region,
 } from "@/lib/directory";
+import { pageTitle } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
-export const Route = createFileRoute("/directory")({ component: DirectoryPage });
+export const Route = createFileRoute("/directory")({
+  head: () => ({
+    meta: [
+      { title: pageTitle("Parties") },
+      {
+        name: "description",
+        content:
+          "Countries, organisations, and regional networks in the shared Lean Construction directory.",
+      },
+    ],
+  }),
+  component: DirectoryPage,
+});
 
 function DirectoryPage() {
   const [query, setQuery] = useState("");
@@ -30,7 +43,8 @@ function DirectoryPage() {
         c.country.toLowerCase().includes(q) ||
         c.organisation.toLowerCase().includes(q) ||
         c.representative.toLowerCase().includes(q) ||
-        (c.network ?? "").toLowerCase().includes(q)
+        (c.network ?? "").toLowerCase().includes(q) ||
+        statusLabel(c.status).toLowerCase().includes(q)
       );
     });
   }, [query, region]);
@@ -73,14 +87,18 @@ function DirectoryPage() {
             className="pl-10"
           />
         </div>
-        <div className="flex flex-wrap gap-1.5">
+        <div
+          className="flex flex-wrap gap-1.5"
+          role="group"
+          aria-label="Filter by region"
+        >
           {REGIONS.map((r) => (
             <button
               key={r}
               type="button"
               onClick={() => setRegion(r)}
               className={cn(
-                "h-11 rounded-full px-3.5 text-sm",
+                "h-10 rounded-md px-3 text-sm transition-colors",
                 region === r
                   ? "bg-accent text-accent-fg"
                   : "bg-surface text-ink-soft shadow-[0_0_0_1px_var(--color-line)] hover:bg-surface-2",
@@ -96,13 +114,14 @@ function DirectoryPage() {
         {rows.length} {rows.length === 1 ? "country" : "countries"}
       </p>
 
-      <div className="mt-4 overflow-x-auto rounded-xl bg-surface shadow-[var(--shadow-border)]">
-        <table className="w-full min-w-[36rem] text-left text-sm">
+      <div className="mt-4 overflow-x-auto">
+        <table className="w-full min-w-[40rem] text-left text-sm">
           <thead className="border-b border-line text-xs tracking-wide text-muted uppercase">
             <tr>
-              <th className="px-4 py-3 font-medium">Country</th>
-              <th className="px-4 py-3 font-medium">Organisation</th>
-              <th className="px-4 py-3 font-medium">Representative</th>
+              <th className="px-2 py-3 font-medium sm:px-3">Country</th>
+              <th className="px-2 py-3 font-medium sm:px-3">Organisation</th>
+              <th className="px-2 py-3 font-medium sm:px-3">Representative</th>
+              <th className="px-2 py-3 font-medium sm:px-3">Status</th>
             </tr>
           </thead>
           <tbody>
@@ -118,7 +137,7 @@ function DirectoryPage() {
             ))}
             {rows.length === 0 ? (
               <tr>
-                <td colSpan={3} className="px-4 py-10 text-center text-muted">
+                <td colSpan={4} className="px-3 py-10 text-center text-muted">
                   No matches.
                 </td>
               </tr>
@@ -129,12 +148,9 @@ function DirectoryPage() {
 
       <section className="mt-12">
         <h2 className="font-display text-2xl font-medium">Regional networks</h2>
-        <ul className="mt-5 grid gap-3 sm:grid-cols-2">
+        <ul className="mt-5 grid gap-6 sm:grid-cols-2">
           {REGIONAL_NETWORKS.map((n) => (
-            <li
-              key={n.name}
-              className="rounded-lg bg-surface p-5 shadow-[var(--shadow-border)]"
-            >
+            <li key={n.name} className="border-t border-line pt-4">
               <p className="font-medium text-ink">{n.name}</p>
               <p className="mt-1 text-sm text-ink-soft">{n.scope}</p>
               {n.representative !== "—" ? (
@@ -182,7 +198,7 @@ function CountryTr({
         selected ? "bg-bg-warm" : "hover:bg-bg",
       )}
     >
-      <td className="px-4 py-3 align-top">
+      <td className="px-2 py-3 align-top sm:px-3">
         <button
           type="button"
           onClick={onSelect}
@@ -192,21 +208,28 @@ function CountryTr({
         </button>
         <div className="mt-1 flex flex-wrap gap-1">
           {row.network ? <Badge>{row.network}</Badge> : null}
-          {label ? <Badge>{label}</Badge> : null}
+          <span className="text-xs text-faint">{row.region}</span>
         </div>
       </td>
-      <td className="px-4 py-3 align-top text-ink-soft">
+      <td className="px-2 py-3 align-top text-ink-soft sm:px-3">
         {row.organisation === "—" ? (
           <span className="text-faint">To be confirmed</span>
         ) : (
           row.organisation
         )}
       </td>
-      <td className="px-4 py-3 align-top">
+      <td className="px-2 py-3 align-top sm:px-3">
         {row.representative ? (
           row.representative
         ) : (
           <span className="text-faint">To be confirmed</span>
+        )}
+      </td>
+      <td className="px-2 py-3 align-top sm:px-3">
+        {label ? (
+          <Badge>{label}</Badge>
+        ) : (
+          <span className="text-xs text-muted">Listed</span>
         )}
       </td>
     </tr>

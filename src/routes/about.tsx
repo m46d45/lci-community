@@ -1,6 +1,19 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { pageTitle } from "@/lib/site";
 
-export const Route = createFileRoute("/about")({ component: AboutPage });
+export const Route = createFileRoute("/about")({
+  head: () => ({
+    meta: [
+      { title: pageTitle("About") },
+      {
+        name: "description",
+        content:
+          "Origin at IGLC-33 in Kyoto: a light international framework among national Lean Construction institutes.",
+      },
+    ],
+  }),
+  component: AboutPage,
+});
 
 const INVITATIONS = [
   "Coach students who lack well-informed advisors — and include those advisors when they are willing.",
