@@ -49,11 +49,11 @@ function HowWeWorkPage() {
         </p>
       </header>
 
-      <ol className="mt-10 space-y-4">
+      <ol className="mt-10 space-y-6">
         {POINTS.map((p) => (
           <li
             key={p.kicker}
-            className="grid gap-4 rounded-xl bg-surface p-6 shadow-[var(--shadow-border)] sm:grid-cols-[5rem_1fr] sm:p-8"
+            className="grid gap-4 border-t border-line pt-6 sm:grid-cols-[5rem_1fr]"
           >
             <p className="font-display text-3xl text-accent">{p.kicker}</p>
             <div>

@@ -76,11 +76,11 @@ function AboutPage() {
           together. They are the origin of the community — not a list of
           programmes already adopted.
         </p>
-        <ol className="mt-6 space-y-3">
+        <ol className="mt-6 space-y-4">
           {INVITATIONS.map((item, i) => (
             <li
               key={item}
-              className="grid gap-3 rounded-lg bg-surface px-5 py-4 shadow-[var(--shadow-border)] sm:grid-cols-[2.5rem_1fr] sm:items-baseline"
+              className="grid gap-3 border-t border-line pt-4 sm:grid-cols-[2.5rem_1fr] sm:items-baseline"
             >
               <span className="font-display text-lg text-accent">
                 {String(i + 1).padStart(2, "0")}
@@ -91,8 +91,8 @@ function AboutPage() {
         </ol>
       </section>
 
-      <section className="mt-12 grid gap-4 lg:grid-cols-2">
-        <div className="rounded-xl bg-surface p-6 shadow-[var(--shadow-border)] sm:p-8">
+      <section className="mt-12 grid gap-8 border-t border-line pt-10 lg:grid-cols-2">
+        <div>
           <h2 className="font-display text-2xl font-medium">What it is</h2>
           <ul className="mt-4 space-y-3 text-sm leading-relaxed text-ink-soft">
             <li>
@@ -106,7 +106,7 @@ function AboutPage() {
             </li>
           </ul>
         </div>
-        <div className="rounded-xl bg-surface p-6 shadow-[var(--shadow-border)] sm:p-8">
+        <div>
           <h2 className="font-display text-2xl font-medium">What it is not</h2>
           <ul className="mt-4 space-y-3 text-sm leading-relaxed text-ink-soft">
             <li>A new institute that replaces the national ones.</li>
