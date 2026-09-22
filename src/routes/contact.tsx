@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import {
-  useEffect,
   useMemo,
   useState,
   type FormEvent,
@@ -10,51 +10,73 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { getCoordinatorEmail, submitContact } from "@/lib/contact";
 import {
   KIND_LABEL,
   isProposalKind,
-  loadProposals,
-  saveProposal,
-  type DirectoryProposal,
   type ProposalKind,
 } from "@/lib/proposals";
+import { pageTitle } from "@/lib/site";
 
 export const Route = createFileRoute("/contact")({
   validateSearch: (raw: Record<string, unknown>) => ({
     kind: isProposalKind(raw.kind) ? raw.kind : undefined,
     country: typeof raw.country === "string" ? raw.country : undefined,
   }),
+  loader: () => getCoordinatorEmail(),
+  head: () => ({
+    meta: [
+      { title: pageTitle("Contact") },
+      {
+        name: "description",
+        content:
+          "Write to the coordinator, or suggest a change to the shared directory.",
+      },
+    ],
+  }),
   component: ContactPage,
 });
 
 function ContactPage() {
   const search = Route.useSearch();
-  const [proposals, setProposals] = useState<DirectoryProposal[]>([]);
+  const coordinatorEmail = Route.useLoaderData();
+  const submit = useServerFn(submitContact);
   const [sent, setSent] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [pending, setPending] = useState(false);
 
-  useEffect(() => {
-    setProposals(loadProposals());
-  }, []);
+  const kinds = useMemo(
+    () => Object.entries(KIND_LABEL) as Array<[ProposalKind, string]>,
+    [],
+  );
 
-  function onSubmit(e: FormEvent<HTMLFormElement>) {
+  async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const data = new FormData(e.currentTarget);
+    setError(null);
+    const form = e.currentTarget;
+    const data = new FormData(form);
     const name = String(data.get("name") ?? "").trim();
     const organisation = String(data.get("organisation") ?? "").trim();
     const kind = String(data.get("kind") ?? "other") as ProposalKind;
     const change = String(data.get("change") ?? "").trim();
     const reach = String(data.get("reach") ?? "").trim();
     if (!name || !change) return;
-    saveProposal({ name, organisation, kind, change, reach });
-    setProposals(loadProposals());
-    setSent(true);
-    e.currentTarget.reset();
-  }
 
-  const kinds = useMemo(
-    () => Object.entries(KIND_LABEL) as Array<[ProposalKind, string]>,
-    [],
-  );
+    setPending(true);
+    try {
+      await submit({ data: { name, organisation, kind, change, reach } });
+      setSent(true);
+      form.reset();
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Could not send. Please try again or use email.",
+      );
+    } finally {
+      setPending(false);
+    }
+  }
 
   return (
     <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
@@ -75,15 +97,37 @@ function ContactPage() {
       <div className="mt-10 grid gap-8 lg:grid-cols-5">
         <form
           onSubmit={onSubmit}
-          className="space-y-5 rounded-xl bg-surface p-6 shadow-[var(--shadow-border)] lg:col-span-3 sm:p-8"
+          className="space-y-5 lg:col-span-3"
         >
           {sent ? (
             <p
               className="rounded-md bg-bg-warm px-4 py-3 text-sm text-accent"
               role="status"
             >
-              Thank you. The coordinator will follow up. The directory itself
-              is not edited from this form.
+              Thank you. Your message was sent to the coordinator. The
+              directory itself is not edited from this form.
+            </p>
+          ) : null}
+
+          {error ? (
+            <p
+              className="rounded-md bg-surface px-4 py-3 text-sm text-ink shadow-[0_0_0_1px_var(--color-line)]"
+              role="alert"
+            >
+              {error}
+              {coordinatorEmail ? (
+                <>
+                  {" "}
+                  Or email{" "}
+                  <a
+                    className="underline underline-offset-2"
+                    href={`mailto:${coordinatorEmail}`}
+                  >
+                    {coordinatorEmail}
+                  </a>
+                  .
+                </>
+              ) : null}
             </p>
           ) : null}
 
@@ -128,11 +172,13 @@ function ContactPage() {
             />
           </Field>
 
-          <Button type="submit">Send</Button>
+          <Button type="submit" disabled={pending}>
+            {pending ? "Sending…" : "Send"}
+          </Button>
         </form>
 
         <aside className="lg:col-span-2">
-          <div className="rounded-xl bg-surface p-6 shadow-[var(--shadow-border)]">
+          <div>
             <h2 className="font-display text-xl font-medium">The shared list</h2>
             <p className="mt-3 text-sm leading-relaxed text-ink-soft">
               One directory of countries and organisations. This site shows the
@@ -154,32 +200,18 @@ function ContactPage() {
                 is edited directly.
               </li>
             </ol>
+            {coordinatorEmail ? (
+              <p className="mt-6 text-sm text-muted">
+                Prefer email?{" "}
+                <a
+                  className="text-ink underline-offset-2 hover:underline"
+                  href={`mailto:${coordinatorEmail}`}
+                >
+                  {coordinatorEmail}
+                </a>
+              </p>
+            ) : null}
           </div>
-
-          {proposals.length > 0 ? (
-            <div className="mt-4 rounded-xl bg-surface p-6 shadow-[var(--shadow-border)]">
-              <h2 className="font-display text-xl font-medium">
-                Recent suggestions
-              </h2>
-              <ul className="mt-3 space-y-3">
-                {proposals.map((p) => (
-                  <li
-                    key={p.id}
-                    className="border-t border-line pt-3 first:border-0 first:pt-0"
-                  >
-                    <p className="text-sm font-medium text-ink">
-                      {KIND_LABEL[p.kind]}
-                    </p>
-                    <p className="mt-1 text-sm text-ink-soft">{p.change}</p>
-                    <p className="mt-1 text-xs text-faint">
-                      {p.name}
-                      {p.organisation ? ` · ${p.organisation}` : ""}
-                    </p>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ) : null}
         </aside>
       </div>
     </main>

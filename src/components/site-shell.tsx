@@ -3,16 +3,24 @@ import { Menu, X } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { Mark } from "@/components/mark";
 import { Button } from "@/components/ui/button";
+import { SHOW_ACTIVITIES_IN_NAV, SITE_NAME, SITE_TAGLINE } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
-const NAV = [
+type NavItem = {
+  to: "/" | "/about" | "/directory" | "/how-we-work" | "/activities" | "/contact";
+  label: string;
+};
+
+const NAV: NavItem[] = [
   { to: "/", label: "Home" },
   { to: "/about", label: "About" },
   { to: "/directory", label: "Parties" },
   { to: "/how-we-work", label: "How we work" },
-  { to: "/activities", label: "Activities" },
+  ...(SHOW_ACTIVITIES_IN_NAV
+    ? [{ to: "/activities" as const, label: "Activities" }]
+    : []),
   { to: "/contact", label: "Contact" },
-] as const;
+];
 
 export function SiteShell({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
@@ -37,10 +45,10 @@ export function SiteShell({ children }: { children: ReactNode }) {
             <Mark className="size-8 text-accent" />
             <span className="leading-tight">
               <span className="block font-display text-lg font-medium">
-                The Community
+                {SITE_NAME}
               </span>
               <span className="hidden text-xs tracking-widest text-muted uppercase sm:block">
-                Lean Construction institutes
+                {SITE_TAGLINE}
               </span>
             </span>
           </Link>
@@ -109,7 +117,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
       <footer className="mt-16 border-t border-line bg-surface-2">
         <div className="mx-auto flex max-w-6xl flex-col gap-6 px-4 py-10 sm:flex-row sm:items-start sm:justify-between sm:px-6">
           <div>
-            <p className="font-display text-lg">The Community</p>
+            <p className="font-display text-lg">{SITE_NAME}</p>
             <p className="mt-2 max-w-sm text-sm text-muted">
               National and regional Lean Construction institutes in a light
               international framework.

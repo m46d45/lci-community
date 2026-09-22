@@ -4,14 +4,18 @@ import {
   useMemo,
   useRef,
   useState,
+  type PointerEvent as ReactPointerEvent,
   type ReactNode,
 } from "react";
 import worldSvg from "@/assets/world.svg?raw";
 import { COUNTRIES, type CountryRow } from "@/lib/directory";
+import { cn } from "@/lib/utils";
 
 type Props = {
   selectedIso?: string | null;
   onSelect?: (row: CountryRow) => void;
+  /** Full-bleed hero plane vs framed directory widget. */
+  variant?: "card" | "bleed";
 };
 
 const BY_ISO = new Map(COUNTRIES.map((c) => [c.iso.toLowerCase(), c]));
@@ -63,7 +67,10 @@ function paint(svg: SVGSVGElement, selectedIso?: string | null) {
       if (isGap) el.setAttribute("data-gap", "");
       else el.setAttribute("data-listed", "");
       if (!el.querySelector("title")) {
-        const t = document.createElementNS("http://www.w3.org/2000/svg", "title");
+        const t = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "title",
+        );
         t.textContent =
           row.organisation === "—"
             ? row.country
@@ -78,7 +85,11 @@ function paint(svg: SVGSVGElement, selectedIso?: string | null) {
   }
 }
 
-export function PresenceMap({ selectedIso, onSelect }: Props) {
+export function PresenceMap({
+  selectedIso,
+  onSelect,
+  variant = "card",
+}: Props) {
   const boxRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement | null>(null);
   const onSelectRef = useRef(onSelect);
@@ -86,6 +97,15 @@ export function PresenceMap({ selectedIso, onSelect }: Props) {
 
   const [ready, setReady] = useState(false);
   const [zoom, setZoom] = useState(1);
+  const [pan, setPan] = useState({ x: 0, y: 0 });
+  const dragRef = useRef<{
+    pointerId: number;
+    startX: number;
+    startY: number;
+    originX: number;
+    originY: number;
+    moved: boolean;
+  } | null>(null);
   const [active, setActive] = useState<CountryRow | null>(null);
 
   const shown = selectedIso
@@ -118,6 +138,7 @@ export function PresenceMap({ selectedIso, onSelect }: Props) {
     paint(svg, null);
 
     const onClick = (e: Event) => {
+      if (dragRef.current?.moved) return;
       const path = (e.target as Element).closest("path");
       if (!path) return;
       const row = BY_ISO.get(countryId(path));
@@ -127,11 +148,11 @@ export function PresenceMap({ selectedIso, onSelect }: Props) {
     };
 
     const onWheel = (e: WheelEvent) => {
+      // Only zoom with modifier keys so normal page scroll still works.
+      if (!(e.ctrlKey || e.metaKey)) return;
       e.preventDefault();
       setZoom((z) =>
-        e.deltaY < 0
-          ? Math.min(4, z * 1.12)
-          : Math.max(1, z / 1.12),
+        e.deltaY < 0 ? Math.min(4, z * 1.12) : Math.max(1, z / 1.12),
       );
     };
 
@@ -152,23 +173,66 @@ export function PresenceMap({ selectedIso, onSelect }: Props) {
   }, [selectedIso, shown?.iso, ready]);
 
   useLayoutEffect(() => {
-    if (svgRef.current) svgRef.current.style.transform = `scale(${zoom})`;
-  }, [zoom, ready]);
+    if (!svgRef.current) return;
+    const tx = zoom <= 1 ? 0 : pan.x;
+    const ty = zoom <= 1 ? 0 : pan.y;
+    svgRef.current.style.transform = `translate(${tx}px, ${ty}px) scale(${zoom})`;
+  }, [zoom, pan, ready]);
 
-  return (
-    <div className="overflow-hidden rounded-xl bg-surface shadow-[var(--shadow-border)]">
-      <div className="flex items-end justify-between gap-3 px-4 pt-4 sm:px-5 sm:pt-5">
-        <p className="font-display text-lg text-ink sm:text-xl">Institutes</p>
-        {caption ? (
-          <p className="truncate text-xs text-muted sm:text-sm">{caption}</p>
-        ) : (
-          <p className="hidden text-xs text-muted sm:block">
-            Click a highlighted country
-          </p>
-        )}
-      </div>
+  useLayoutEffect(() => {
+    if (zoom <= 1) setPan({ x: 0, y: 0 });
+  }, [zoom]);
 
-      <div className="world-map-frame mx-4 mt-3 sm:mx-5">
+  function onPointerDown(e: ReactPointerEvent<HTMLDivElement>) {
+    if (zoom <= 1 || e.button !== 0) return;
+    const target = e.target as Element;
+    // Prefer pan over accidental country clicks when dragging.
+    dragRef.current = {
+      pointerId: e.pointerId,
+      startX: e.clientX,
+      startY: e.clientY,
+      originX: pan.x,
+      originY: pan.y,
+      moved: false,
+    };
+    e.currentTarget.setPointerCapture(e.pointerId);
+  }
+
+  function onPointerMove(e: ReactPointerEvent<HTMLDivElement>) {
+    const drag = dragRef.current;
+    if (!drag || drag.pointerId !== e.pointerId) return;
+    const dx = e.clientX - drag.startX;
+    const dy = e.clientY - drag.startY;
+    if (Math.hypot(dx, dy) > 4) drag.moved = true;
+    if (drag.moved) {
+      setPan({ x: drag.originX + dx, y: drag.originY + dy });
+    }
+  }
+
+  function onPointerUp(e: ReactPointerEvent<HTMLDivElement>) {
+    const drag = dragRef.current;
+    if (!drag || drag.pointerId !== e.pointerId) return;
+    // Keep moved flag until click handler runs (same tick).
+    queueMicrotask(() => {
+      dragRef.current = null;
+    });
+    try {
+      e.currentTarget.releasePointerCapture(e.pointerId);
+    } catch {
+      /* already released */
+    }
+  }
+
+  const frame = (
+    <div
+      className={cn(
+        "world-map-frame",
+        variant === "bleed"
+          ? "absolute inset-0 min-h-0 rounded-none"
+          : "mx-4 mt-3 sm:mx-5",
+      )}
+    >
+      {variant === "card" ? (
         <div className="absolute top-3 right-3 z-10 flex flex-col gap-1">
           <ZoomBtn
             label="Zoom in"
@@ -182,12 +246,53 @@ export function PresenceMap({ selectedIso, onSelect }: Props) {
           >
             <Minus className="size-4" />
           </ZoomBtn>
-          <ZoomBtn label="Reset" onClick={() => setZoom(1)}>
+          <ZoomBtn
+            label="Reset"
+            onClick={() => {
+              setZoom(1);
+              setPan({ x: 0, y: 0 });
+            }}
+          >
             <RotateCcw className="size-3.5" />
           </ZoomBtn>
         </div>
-        <div ref={boxRef} className="world-map-svg" />
+      ) : null}
+      <div
+        ref={boxRef}
+        className={cn(
+          "world-map-svg",
+          zoom > 1 ? "cursor-grab active:cursor-grabbing" : null,
+        )}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        onPointerCancel={onPointerUp}
+      />
+    </div>
+  );
+
+  if (variant === "bleed") {
+    return (
+      <div className="absolute inset-0 bg-map-sea" aria-hidden={false}>
+        {frame}
       </div>
+    );
+  }
+
+  return (
+    <div className="overflow-hidden rounded-xl bg-surface shadow-[var(--shadow-border)]">
+      <div className="flex items-end justify-between gap-3 px-4 pt-4 sm:px-5 sm:pt-5">
+        <p className="font-display text-lg text-ink sm:text-xl">Institutes</p>
+        {caption ? (
+          <p className="truncate text-xs text-muted sm:text-sm">{caption}</p>
+        ) : (
+          <p className="hidden text-xs text-muted sm:block">
+            Click a highlighted country · Ctrl/⌘+scroll to zoom · drag to pan
+          </p>
+        )}
+      </div>
+
+      {frame}
 
       <ul className="flex flex-wrap gap-x-5 gap-y-2 border-t border-line px-4 py-3 text-xs text-muted sm:px-5">
         <li className="flex items-center gap-2">
